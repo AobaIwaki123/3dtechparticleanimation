@@ -1,22 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: journee
-  namespace: journee
+  name: portfolio
+  namespace: portfolio
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: journee
+      app: portfolio
   template:
     metadata:
       labels:
-        app: journee
+        app: portfolio
     spec:
-      imagePullSecrets:
-        - name: gcr-pull-secret
       containers:
-        - name: journee
-          image: gcr.io/my-docker-471807/journee:v7.3.3
+        - name: portfolio
+          image: iwakiaoba/3d-particle:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 80
