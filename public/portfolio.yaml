@@ -18,3 +18,63 @@ projects:
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "日向坂"]
     link: "https://penlight.aooba.net"
     github: "https://github.com/AobaIwaki123/sakamichi-penlight-quiz"
+  - title: "浅井恋乃未 X bot"
+    description: "浅井恋乃未のX（旧Twitter）用ボットプログラム"
+    tech: ["Python", "X API", "Task Scheduling"]
+    link: "#"
+    github: "https://github.com/AobaIwaki123/asai-x-bot"
+  - title: "画像URLスクレイパー"
+    description: "URLから自動的に画像を取得しCSVにエクスポートするスクレイパー"
+    tech: ["Python", "BeautifulSoup", "CSV"]
+    link: "#"
+    github: "https://github.com/AobaIwaki123/url-to-csv"
+  - title: "YouTube Musp"
+    description: "YouTube動画のボーカルとインストゥルメンタルを分離するアプリケーション"
+    tech: ["Python", "AI", "Audio Processing"]
+    link: "#"
+    github: "https://github.com/AobaIwaki123/musp"
+  - title: "Quick Send (Raycast x Memos)"
+    description: "RaycastとMemosを連携させ、AIのような雑な文章を素早く収集するアプリ"
+    tech: ["Raycast SDK", "Node.js", "API Integration"]
+    link: "#"
+    github: "https://github.com/AobaIwaki123/quick-send"
+  - title: "k8s Cluster Setup"
+    description: "自宅サーバー環境におけるKubernetesクラスタの構築と自動化"
+    tech: ["Kubernetes", "Linux", "Networking"]
+    link: "#"
+    github: "https://github.com/AobaIwaki123/k8s-cluster"
+  - title: "Proxmox Terraform Automation"
+    description: "Terraformを使用したProxmox VM作成の完全自動化"
+    tech: ["Terraform", "Proxmox", "IaC"]
+    link: "#"
+    github: "https://github.com/AobaIwaki123/Proxmox-Terraform"
+  - title: "Ansible Configuration Management"
+    description: "Ansibleを用いた複数サーバーの構成管理自動化"
+    tech: ["Ansible", "YAML", "Automation"]
+    link: "#"
+    github: "https://github.com/AobaIwaki123/ansible"
+  - title: "Infra Manifests"
+    description: "k8sのリソースマニフェストファイルをGitで一括管理"
+    tech: ["Kubernetes", "GitOps", "ArgoCD"]
+    link: "#"
+    github: "https://github.com/AobaIwaki123/infra"
+  - title: "Container Runtime"
+    description: "学習のためにGo言語で実装した自作コンテナランタイム"
+    tech: ["Go", "Linux Cgroups", "Namespaces"]
+    link: "#"
+    github: "https://github.com/AobaIwaki123/container-runtime"
+  - title: "Dataform CLI Contribution"
+    description: "Google Cloud DataformのCLIに新しいオプション機能を追加するプルリクエスト"
+    tech: ["TypeScript", "BigQuery", "Dataform"]
+    link: "https://github.com/dataform-co/dataform/pull/1962"
+    github: "https://github.com/dataform-co/dataform"
+  - title: "Memos Auto-Update Feature"
+    description: "オープンソースプロジェクトMemosに自動更新機能を追加する実装"
+    tech: ["Go", "React", "OSS"]
+    link: "https://github.com/usememos/memos/pull/5348"
+    github: "https://github.com/usememos/memos"
+  - title: "YouTube with Gesture"
+    description: "ハンドジェスチャーでYouTubeの操作を可能にする実験的プロジェクト"
+    tech: ["Python", "OpenCV", "MediaPipe"]
+    link: "#"
+    github: "https://github.com/AobaIwaki123/YouTubewithGesture"
