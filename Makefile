@@ -9,9 +9,9 @@ help:
 	@echo "Available commands:"
 	@echo "  make install          - Install dependencies with pnpm"
 	@echo "  make dev              - Start development server"
-	@echo "  make build            - Build multi-platform Docker image"
+	@echo "  make build            - Build Docker image for local testing (current architecture)"
 	@echo "  make push             - Push Docker image to registry"
-	@echo "  make build-push       - Build and push Docker image"
+	@echo "  make build-push       - Build and push multi-platform Docker image (production)"
 	@echo "  make restart-deployment - Restart Kubernetes deployment"
 	@echo "  make clean            - Clean build artifacts"
 
@@ -22,8 +22,8 @@ dev:
 	pnpm dev
 
 build:
-	@echo "Building multi-platform Docker image for $(PLATFORMS)..."
-	docker buildx build --platform $(PLATFORMS) -t $(IMAGE_NAME):$(TAG) --load .
+	@echo "Building Docker image for local testing..."
+	docker buildx build -t $(IMAGE_NAME):$(TAG) --load .
 
 push:
 	@echo "Pushing Docker image $(IMAGE_NAME):$(TAG)..."
