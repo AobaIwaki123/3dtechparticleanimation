@@ -43,6 +43,8 @@ export function ParticleCanvas() {
     let time = 0;
     let animationId: number;
     let clickForce = 0;
+    let clickX = 0;
+    let clickY = 0;
 
     // テキストから粒子位置を生成
     const createParticlesFromText = () => {
@@ -118,12 +120,14 @@ export function ParticleCanvas() {
     // クリックイベント
     const handleClick = (e: MouseEvent) => {
       clickForce = 1;
+      clickX = e.clientX;
+      clickY = e.clientY;
     };
     canvas.addEventListener('click', handleClick);
 
     // アニメーションループ
     const animate = () => {
-      ctx.fillStyle = 'rgba(15, 23, 42, 0.2)';
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.4)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       time += 0.01;
@@ -157,12 +161,19 @@ export function ParticleCanvas() {
           particle.vy -= Math.sin(angle) * force * 4;
         }
 
-        // クリックからの影響
-        if (clickForce > 0) {
-          const force = clickForce * 2;
-          const angle = Math.atan2(dy, dx);
-          particle.vx -= Math.cos(angle) * force * 4;
-          particle.vy -= Math.sin(angle) * force * 4;
+        // クリック時の爆発効果
+        if (clickForce > 0.01) {
+          const cdx = particle.x - clickX;
+          const cdy = particle.y - clickY;
+          const cdist = Math.sqrt(cdx * cdx + cdy * cdy);
+          const maxClickDistance = 600;
+
+          if (cdist < maxClickDistance) {
+            const explosionForce = ((maxClickDistance - cdist) / maxClickDistance) * clickForce;
+            const angle = Math.atan2(cdy, cdx);
+            particle.vx += Math.cos(angle) * explosionForce * 15;
+            particle.vy += Math.sin(angle) * explosionForce * 15;
+          }
         }
 
         // 目標位置への引力
