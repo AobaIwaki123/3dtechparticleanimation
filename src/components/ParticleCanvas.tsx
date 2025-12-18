@@ -33,15 +33,7 @@ export function ParticleCanvas({ onDisperse, isDisappearing = false }: ParticleC
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Canvas サイズ設定
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    // パーティクル配列
+    // パーティクル配列と状態
     const particles: Particle[] = [];
     let mouseX = canvas.width / 2;
     let mouseY = canvas.height / 2;
@@ -53,6 +45,9 @@ export function ParticleCanvas({ onDisperse, isDisappearing = false }: ParticleC
 
     // テキストから粒子位置を生成
     const createParticlesFromText = () => {
+      // 既存の粒子をクリア
+      particles.length = 0;
+
       // キャンバスサイズチェック
       if (canvas.width === 0 || canvas.height === 0) {
         console.log('Canvas size is 0');
@@ -63,7 +58,9 @@ export function ParticleCanvas({ onDisperse, isDisappearing = false }: ParticleC
       const tempCtx = tempCanvas.getContext('2d');
       if (!tempCtx) return;
 
-      const fontSize = Math.min(canvas.width * 0.7, 400);
+      // モバイル対応: 画面幅に合わせてフォントサイズを調整
+      // "Aoba" は約4文字分なので、幅の20%〜25%程度が適切
+      const fontSize = Math.min(canvas.width * 0.25, 400);
       tempCanvas.width = canvas.width;
       tempCanvas.height = canvas.height;
 
@@ -77,14 +74,13 @@ export function ParticleCanvas({ onDisperse, isDisappearing = false }: ParticleC
       const pixels = imageData.data;
 
       // グリッドサンプリングで粒子を配置
-      const gap = 6;
+      const gap = Math.max(4, Math.floor(canvas.width / 150)); // 小さい画面では密度を調整
       for (let y = 0; y < tempCanvas.height; y += gap) {
         for (let x = 0; x < tempCanvas.width; x += gap) {
           const index = (y * tempCanvas.width + x) * 4;
           const alpha = pixels[index + 3];
 
           if (alpha > 128) {
-            // ランダムな初期位置
             const randomX = Math.random() * canvas.width;
             const randomY = Math.random() * canvas.height;
             const randomZ = (Math.random() - 0.5) * 300;
@@ -113,7 +109,16 @@ export function ParticleCanvas({ onDisperse, isDisappearing = false }: ParticleC
       console.log(`Created ${particles.length} particles`);
     };
 
+    // 初期生成
     createParticlesFromText();
+
+    // Canvas サイズ設定
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      createParticlesFromText();
+    };
+    window.addEventListener('resize', resizeCanvas);
 
     // マウス追跡
     const handleMouseMove = (e: MouseEvent) => {
