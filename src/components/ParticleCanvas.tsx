@@ -58,9 +58,11 @@ export function ParticleCanvas({ onDisperse, isDisappearing = false }: ParticleC
       const tempCtx = tempCanvas.getContext('2d');
       if (!tempCtx) return;
 
-      // モバイル対応: 画面幅に合わせてフォントサイズを調整
-      // "Aoba" は約4文字分なので、幅の20%〜25%程度が適切
-      const fontSize = Math.min(canvas.width * 0.25, 400);
+      // モバイル対応: 画面幅に合わせてパラメータを調整
+      const isMobile = canvas.width < 768;
+      const fontSize = isMobile ? Math.min(canvas.width * 0.3, 160) : Math.min(canvas.width * 0.25, 400);
+      const gap = isMobile ? 10 : Math.max(4, Math.floor(canvas.width / 150));
+
       tempCanvas.width = canvas.width;
       tempCanvas.height = canvas.height;
 
@@ -68,13 +70,15 @@ export function ParticleCanvas({ onDisperse, isDisappearing = false }: ParticleC
       tempCtx.font = `bold ${fontSize}px Arial`;
       tempCtx.textAlign = 'center';
       tempCtx.textBaseline = 'middle';
+
+      // モバイルでは文字間隔を少し広げるために個別描画を検討したが、
+      // まずは単一の文字列でフォントサイズとGap調整を試す
       tempCtx.fillText('Aoba', tempCanvas.width / 2, tempCanvas.height / 2);
 
       const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
       const pixels = imageData.data;
 
       // グリッドサンプリングで粒子を配置
-      const gap = Math.max(4, Math.floor(canvas.width / 150)); // 小さい画面では密度を調整
       for (let y = 0; y < tempCanvas.height; y += gap) {
         for (let x = 0; x < tempCanvas.width; x += gap) {
           const index = (y * tempCanvas.width + x) * 4;
@@ -84,6 +88,10 @@ export function ParticleCanvas({ onDisperse, isDisappearing = false }: ParticleC
             const randomX = Math.random() * canvas.width;
             const randomY = Math.random() * canvas.height;
             const randomZ = (Math.random() - 0.5) * 300;
+
+            // モバイルでは jitter (radius) を小さくする
+            const baseJitter = isMobile ? 1.5 : 5;
+            const jitterRadius = Math.random() * baseJitter + (isMobile ? 1 : 2);
 
             particles.push({
               x: randomX,
@@ -100,7 +108,7 @@ export function ParticleCanvas({ onDisperse, isDisappearing = false }: ParticleC
               vz: 0,
               angle: Math.random() * Math.PI * 2,
               angleSpeed: (Math.random() - 0.5) * 0.01,
-              radius: Math.random() * 5 + 2
+              radius: jitterRadius
             });
           }
         }
@@ -212,7 +220,9 @@ export function ParticleCanvas({ onDisperse, isDisappearing = false }: ParticleC
         const scale = 400 / (400 + particle.z);
         const x2d = particle.x;
         const y2d = particle.y;
-        const size = Math.max(1, 2.5 * scale);
+        const isMobile = canvas.width < 768;
+        const sizeBase = isMobile ? 1.8 : 2.5;
+        const size = Math.max(1, sizeBase * scale);
 
         // 青色のグラデーション
         const depth = (particle.z + 200) / 400; // 0-1の範囲に正規化
