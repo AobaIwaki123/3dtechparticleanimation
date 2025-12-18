@@ -1,25 +1,25 @@
-# Portfolio Site Expansion Ideas
+# ポートフォリオサイト拡張案
 
-To further enhance your portfolio and make it stand out, here are several expansion ideas:
+ポートフォリオをさらに充実させ、より魅力的なものにするための拡張案をいくつか提案します。
 
-## 1. Interactive Experience
-- **Particle Text Scrollytelling**: As the user scrolls, have the particles form different icons or words that correlate with the content (e.g., forming a Kubernetes logo when talking about DevOps).
-- **Physics-based Projects**: Make the project tiles respond to the particles. Maybe particles "hit" the tiles and make them jitter slightly.
+## 1. インタラクティブな体験
+- **パーティクルテキストによるスクローリーテリング**: ユーザーがスクロールするのに合わせて、パーティクルが異なるアイコンや単語（例：DevOpsについて話しているときはKubernetesのロゴなど）を形成するようにします。
+- **物理ベースのプロジェクトタイル**: パーティクルがプロジェクトのタイルに反応するようにします。例えば、パーティクルがタイルに「当たる」とタイルが少し揺れるような演出などです。
 
-## 2. Technical Depth
-- **Live Status Badges**: Integration with GitHub Actions or a status page API to show real-time build/deployment status of your projects.
-- **Micro-blog/TIL Section**: A small section powered by a separate YAML or Markdown folder for "Today I Learned" snippets, showing your continuous learning process.
+## 2. 技術的な深みの提示
+- **ライブステータスバッジ**: GitHub ActionsやステータスページのAPIと連携し、プロジェクトのリアルタイムなビルド・デプロイ状態を表示します。
+- **Micro-blog/TIL セクション**: 別のYAMLまたはMarkdownフォルダをソースとする「Today I Learned（今日学んだこと）」セクションを追加し、継続的な学習プロセスを可視化します。
 
-## 3. Design & UI
-- **Custom Cursor**: A particle-based custom cursor that leaves a trail as it moves across the portfolio.
-- **Glassmorphism Enhancements**: Add more depth to the project tiles with subtle shadows and varying transparency based on scroll position.
-- **Dynamic Backgrounds**: Change the gradient or particle color theme based on the time of day or the project being viewed.
+## 3. デザインとUIの向上
+- **カスタムカーソル**: パーティクルベースのカスタムカーソルを作成し、移動に合わせて軌跡を残すような演出を加えます。
+- **グラスモーフィズムの深化**: スクロール位置に応じて透明度や影を変化させ、プロジェクトタイルにさらなる奥行きを与えます。
+- **ダイナミックな背景**: 時間帯や表示しているプロジェクトに応じて、グラデーションやパーティクルのカラーテーマを動的に変更します。
 
-## 4. Content & Reach
-- **Activity Heatmap**: Embed your GitHub contribution heatmap directly in the Hero or a dedicated "Impact" section.
-- **Testimonials/Recommendations**: If you have feedback from colleagues or open-source contributors, add a subtle carousel for these.
-- **RSS Feed Integration**: If you write on Zenn, pull in your latest articles dynamically.
+## 4. コンテンツとリーチ
+- **アクティビティヒートマップ**: GitHubのコントリビューションヒートマップをヒーローセクションや専用のセクションに直接埋め込みます。
+- **推奨文/フィードバック**: 同僚やオープンソースのコントリビューターからのフィードバックがある場合、カルーセル形式で表示します。
+- **RSSフィードの統合**: Zennなどで執筆している場合、最新記事を動的に取得して表示します。
 
-## 5. Performance & DX
-- **PWA Support**: Make the portfolio installable for offline viewing.
-- **Internationalization (i18n)**: Easy toggle between Japanese and English, as the current description is in Japanese while the UI is largely English.
+## 5. パフォーマンスとDX
+- **PWA対応**: オフラインでも閲覧できるように、プログレッシブウェブアプリ化します。
+- **多言語対応 (i18n)**: 現在、説明文は日本語でUIは英語が主ですが、これらを簡単に切り替えられるようにします。
