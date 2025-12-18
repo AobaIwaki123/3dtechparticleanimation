@@ -109,15 +109,15 @@ export function ParticleCanvas({ onDisperse, isDisappearing = false }: ParticleC
       console.log(`Created ${particles.length} particles`);
     };
 
-    // 初期生成
-    createParticlesFromText();
-
     // Canvas サイズ設定
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       createParticlesFromText();
     };
+
+    // 初回実行
+    resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
     // マウス追跡
