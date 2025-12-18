@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portfolio
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/AobaIwaki123/3dtechparticleanimation'
+    targetRevision: dev
+    path: k8s/manifests
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: portfolio
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
