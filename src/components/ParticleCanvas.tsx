@@ -72,7 +72,7 @@ export function ParticleCanvas() {
       const pixels = imageData.data;
 
       // グリッドサンプリングで粒子を配置
-      const gap = 4;
+      const gap = 6;
       for (let y = 0; y < tempCanvas.height; y += gap) {
         for (let x = 0; x < tempCanvas.width; x += gap) {
           const index = (y * tempCanvas.width + x) * 4;
