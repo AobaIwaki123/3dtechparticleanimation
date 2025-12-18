@@ -12,9 +12,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Build Tool**: Vite 6.3.5 (using SWC plugin for fast compilation)
 - **Package Manager**: pnpm (NOT npm)
 - **UI Components**: Radix UI primitives + custom components in `src/components/ui/`
-- **Styling**: Tailwind CSS (inline via className)
+- **Styling**: Tailwind CSS v4 (dynamic compilation via `@tailwindcss/vite`)
 - **Containerization**: Docker with multi-stage build (Node.js builder + Nginx production)
-- **Orchestration**: Kubernetes with ArgoCD GitOps deployment
+- **Orchestration**: Kubernetes with ArgoCD GitOps deployment (monitors `main` branch)
 
 ## Development Commands
 
@@ -42,7 +42,7 @@ docker push iwakiaoba/3d-particle:latest
 
 The application uses ArgoCD for GitOps continuous deployment:
 
-- **ArgoCD Application**: `k8s/app.yaml` - Monitors the `dev` branch
+- **ArgoCD Application**: `k8s/app.yaml` - Monitors the `main` branch
 - **Manifests**: `k8s/manifests/` directory contains:
   - `deployments.yaml` - Uses `iwakiaoba/3d-particle:latest` image, 2 replicas
   - `service.yaml` - ClusterIP service on port 80
@@ -50,7 +50,7 @@ The application uses ArgoCD for GitOps continuous deployment:
 - **Namespace**: `portfolio`
 - **Auto-sync**: Enabled with self-heal and prune
 
-When changes are pushed to `dev` branch, ArgoCD automatically syncs the deployment.
+When changes are pushed to `main` branch, ArgoCD automatically syncs the deployment.
 
 ## Architecture
 
@@ -62,6 +62,7 @@ src/
 ├── main.tsx                   # Entry point
 ├── components/
 │   ├── ParticleCanvas.tsx    # Core particle animation logic
+│   ├── Portfolio.tsx         # Main portfolio content page
 │   ├── ui/                   # Radix UI component library
 │   └── figma/                # Figma-exported components
 ├── styles/
@@ -85,6 +86,16 @@ The main animation component uses HTML5 Canvas API:
    - Rendering: Blue gradient glow effect with HSL color variation
    - Connection lines: Draw between particles within 40px distance
 
+### Portfolio Transition Logic (App.tsx)
+
+The application features a smooth transition from the intro animation to the main portfolio:
+
+1. **Trigger**: High-level click event listener in `App.tsx` and triggered via `onDisperse` callback in `ParticleCanvas`.
+2. **Animation**:
+   - `ParticleCanvas` initiates its disperse (explosion) effect.
+   - Concurrently, a 1.5s fade-out is applied to the canvas (`opacity-0` with `transition-opacity duration-1500`).
+3. **Completion**: After 1.5s, `showPortfolio` state changes to `true`, rendering the `Portfolio` component with a fade-in animation.
+
 ### Build Output
 
 - Vite builds to `build/` directory (configured in vite.config.ts:54)
@@ -105,6 +116,7 @@ The project uses extensive Vite path aliases for package resolution (see vite.co
 
 - **Package Manager**: Always use `pnpm`, not `npm` or `yarn`
 - **Build Directory**: Output goes to `build/` (not `dist/`)
+- **Tailwind CSS**: Uses v4 with Vite plugin. Utility classes are generated dynamically from source files.
 - **Text Content**: The particle animation displays "Aoba" (hardcoded in ParticleCanvas.tsx:66)
 - **Production Image**: The Docker image is published to `iwakiaoba/3d-particle` on Docker Hub
-- **Deployment Branch**: ArgoCD watches the `dev` branch, not `main`
+- **Deployment Branch**: ArgoCD watches the `main` branch (deployment automated via GitOps)
