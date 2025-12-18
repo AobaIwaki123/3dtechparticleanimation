@@ -2,36 +2,19 @@ hero:
   name: "Aoba Iwaki"
   title: "Developer"
   description: "インフラ技術が好き"
-
-skills:
-  - category: "Frontend"
-    skills: ["React", "TypeScript", "Tailwind CSS", "Vite"]
-  - category: "Backend"
-    skills: ["Node.js", "Python", "REST APIs", "GraphQL"]
-  - category: "DevOps"
-    skills: ["Kubernetes", "Docker", "ArgoCD", "CI/CD"]
-  - category: "Cloud"
-    skills: ["AWS", "GCP", "Cloudflare", "Nginx"]
-  - category: "Monitoring"
-    skills: ["Prometheus", "Grafana", "Loki", "Promtail"]
-  - category: "Tools"
-    skills: ["Git", "pnpm", "Linux", "Figma"]
+  social:
+    github: "https://github.com/AobaIwaki123"
+    zenn: "https://zenn.dev"
+    email: "aobaiwaki@gmail.com"
 
 projects:
-  - title: "3D Particle Animation"
-    description: "Interactive particle system with 3D effects, creating dynamic text formations that respond to user interaction. Built with React and HTML5 Canvas."
-    tech: ["React", "TypeScript", "Canvas API", "Vite"]
-    link: "https://portfolio.aooba.net"
-  - title: "Kubernetes Observability Stack"
-    description: "Complete monitoring solution using Prometheus, Grafana, and Loki. Deployed via GitOps with ArgoCD for automated synchronization."
-    tech: ["Kubernetes", "Prometheus", "Grafana", "ArgoCD"]
-    link: "#"
-  - title: "Cloud-Native Web Application"
-    description: "Scalable web application deployed on Kubernetes with Cloudflare Tunnel integration, featuring automated CI/CD pipeline."
-    tech: ["Docker", "Kubernetes", "Nginx", "Cloudflare"]
-    link: "#"
-
-contact:
-  email: "contact@example.com"
-  github: "https://github.com/AobaIwaki123"
-  linkedin: "https://linkedin.com"
+  - title: "Journee (旅のしおり作成AIエージェント)"
+    description: "AIとともに旅のしおりを作成するアプリケーション"
+    tech: ["React", "TypeScript", "Next.js", "Gemini"]
+    link: "https://journee.aooba.net"
+    github: "https://github.com/AobaIwaki123/journee"
+  - title: "坂道ペンライトクイズ"
+    description: "坂道グループのペンライトクイズ"
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "日向坂"]
+    link: "https://penlight.aooba.net"
+    github: "https://github.com/AobaIwaki123/sakamichi-penlight-quiz"
