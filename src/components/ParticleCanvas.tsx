@@ -58,7 +58,7 @@ export function ParticleCanvas() {
       const tempCtx = tempCanvas.getContext('2d');
       if (!tempCtx) return;
 
-      const fontSize = Math.min(canvas.width * 0.3, 200);
+      const fontSize = Math.min(canvas.width * 0.7, 400);
       tempCanvas.width = canvas.width;
       tempCanvas.height = canvas.height;
 
@@ -196,13 +196,13 @@ export function ParticleCanvas() {
         particle.z += particle.vz;
 
         // 3D効果の計算
-        const scale = 300 / (300 + particle.z);
+        const scale = 400 / (400 + particle.z);
         const x2d = particle.x;
         const y2d = particle.y;
-        const size = Math.max(1, 2 * scale);
+        const size = Math.max(1, 2.5 * scale);
 
         // 青色のグラデーション
-        const depth = (particle.z + 150) / 300; // 0-1の範囲に正規化
+        const depth = (particle.z + 200) / 400; // 0-1の範囲に正規化
         const brightness = Math.max(0.4, Math.min(1, depth));
         
         // 青色のバリエーション
