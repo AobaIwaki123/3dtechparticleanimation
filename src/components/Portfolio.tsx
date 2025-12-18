@@ -93,12 +93,11 @@ export function Portfolio() {
                     <div className="space-y-8 animate-fade-in">
                         <div className="space-y-4">
                             <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-tight animate-slide-up">
-                                <span className="text-white block">Building digital</span>
-                                <span className="text-gradient block">experiences.</span>
+                                <span className="text-white block">Scrap & Build</span>
                             </h1>
 
                             <p className="text-2xl md:text-3xl text-slate-400 font-medium animate-slide-up animation-delay-200">
-                                {data.hero.title} & Tech Enthusiast
+                                {data.hero.title}
                             </p>
                         </div>
 
@@ -193,7 +192,7 @@ export function Portfolio() {
                                             target="_blank" rel="noopener noreferrer"
                                             className="inline-flex items-center gap-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors group/link"
                                         >
-                                            View Project
+                                            Check Demo
                                             <ExternalLink className="w-4 h-4 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
                                         </a>
                                     )}
