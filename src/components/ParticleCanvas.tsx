@@ -138,13 +138,13 @@ export function ParticleCanvas() {
         const dx = mouseX - particle.x;
         const dy = mouseY - particle.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const maxDistance = 150;
+        const maxDistance = 250;
 
         if (distance < maxDistance) {
           const force = (maxDistance - distance) / maxDistance;
           const angle = Math.atan2(dy, dx);
-          particle.vx -= Math.cos(angle) * force * 2;
-          particle.vy -= Math.sin(angle) * force * 2;
+          particle.vx -= Math.cos(angle) * force * 4;
+          particle.vy -= Math.sin(angle) * force * 4;
         }
 
         // 目標位置への引力
@@ -152,9 +152,9 @@ export function ParticleCanvas() {
         const ty = particle.targetY - particle.y;
         const tz = particle.targetZ - particle.z;
 
-        particle.vx += tx * 0.05;
-        particle.vy += ty * 0.05;
-        particle.vz += tz * 0.05;
+        particle.vx += tx * 0.1;
+        particle.vy += ty * 0.1;
+        particle.vz += tz * 0.1;
 
         // 摩擦
         particle.vx *= 0.9;
