@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import yaml from 'js-yaml';
-import { Github, Mail, ExternalLink, ArrowRight, Zap } from 'lucide-react';
+import { Github, ExternalLink, ArrowRight, Zap } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { Skeleton } from './ui/skeleton';
+import { siZenn } from 'simple-icons';
 
 interface Project {
     title: string;
@@ -33,6 +34,20 @@ interface PortfolioData {
     categories: Category[];
     projects: Project[];
 }
+
+const ZennIcon = ({ className }: { className?: string }) => (
+    <svg 
+        role="img" 
+        viewBox="0 0 24 24" 
+        xmlns="http://www.w3.org/2000/svg"
+        fill="white"
+        className={className}
+        width="32"   // 追加
+        height="32"  // 追加
+    >
+        <path d={siZenn.path}/>
+    </svg>
+);
 
 export function Portfolio() {
     const [data, setData] = useState<PortfolioData | null>(null);
@@ -92,7 +107,6 @@ export function Portfolio() {
                     <span className="text-lg font-display font-bold tracking-tight text-white uppercase">{data.hero.name}</span>
                     <div className="flex gap-6">
                         <a href="#projects" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Projects</a>
-                        <a href={`mailto:${data.hero.social.email}`} className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
                     </div>
                 </div>
             </nav>
@@ -134,9 +148,9 @@ export function Portfolio() {
                                         <Github className="w-6 h-6" />
                                     </a>
                                 )}
-                                {data.hero.social.email && (
-                                    <a href={`mailto:${data.hero.social.email}`} className="p-3 bg-white/5 rounded-full hover:bg-white/10 hover:text-blue-400 transition-all border border-white/5">
-                                        <Mail className="w-6 h-6" />
+                                {data.hero.social.zenn && (
+                                    <a href={data.hero.social.zenn} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-full hover:bg-white/10 hover:text-blue-400 transition-all border border-white/5">
+                                        <ZennIcon className="w-6 h-6" />
                                     </a>
                                 )}
                             </div>
@@ -165,8 +179,8 @@ export function Portfolio() {
                                 key={category.id}
                                 onClick={() => setActiveCategory(category.id)}
                                 className={`px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${activeCategory === category.id
-                                        ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
-                                        : "bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5"
+                                    ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
+                                    : "bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5"
                                     }`}
                             >
                                 {category.label}
@@ -234,19 +248,7 @@ export function Portfolio() {
             {/* Footer */}
             <footer className="py-20 border-t border-white/5 bg-slate-950 text-center">
                 <div className="max-w-4xl mx-auto px-6">
-                    <h3 className="text-3xl font-display font-bold mb-8">Let's build something amazing together.</h3>
-                    <div className="flex justify-center gap-6">
-                        {data.hero.social.github && (
-                            <a href={data.hero.social.github} className="text-slate-400 hover:text-white transition-colors">GitHub</a>
-                        )}
-                        {data.hero.social.zenn && (
-                            <a href={data.hero.social.zenn} className="text-slate-400 hover:text-white transition-colors">Zenn</a>
-                        )}
-                        {data.hero.social.email && (
-                            <a href={`mailto:${data.hero.social.email}`} className="text-slate-400 hover:text-white transition-colors">Email</a>
-                        )}
-                    </div>
-                    <p className="mt-12 text-sm text-slate-600 font-medium tracking-widest uppercase">
+                    <p className="text-sm text-slate-600 font-medium tracking-widest uppercase">
                         &copy; {new Date().getFullYear()} {data.hero.name}. All Rights Reserved.
                     </p>
                 </div>
