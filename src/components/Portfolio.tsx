@@ -11,6 +11,12 @@ interface Project {
     tech: string[];
     link: string;
     github?: string;
+    category: string;
+}
+
+interface Category {
+    id: string;
+    label: string;
 }
 
 interface PortfolioData {
@@ -24,12 +30,14 @@ interface PortfolioData {
             email?: string;
         };
     };
+    categories: Category[];
     projects: Project[];
 }
 
 export function Portfolio() {
     const [data, setData] = useState<PortfolioData | null>(null);
     const [loading, setLoading] = useState(true);
+    const [activeCategory, setActiveCategory] = useState("all");
 
     useEffect(() => {
         fetch('/portfolio.yaml')
@@ -71,6 +79,10 @@ export function Portfolio() {
             </div>
         );
     }
+
+    const filteredProjects = activeCategory === "all"
+        ? data.projects
+        : data.projects.filter(p => p.category === activeCategory);
 
     return (
         <div className="min-h-screen bg-slate-950 text-slate-50 selection:bg-blue-500/30">
@@ -136,7 +148,7 @@ export function Portfolio() {
             {/* Projects Section */}
             <section id="projects" className="py-32 px-6 bg-slate-950 relative">
                 <div className="max-w-7xl mx-auto">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 animate-fade-in">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 animate-fade-in">
                         <div className="space-y-4">
                             <h2 className="text-4xl md:text-6xl font-black tracking-tighter">
                                 Selected <span className="text-blue-500 italic">Work</span>
@@ -146,8 +158,24 @@ export function Portfolio() {
                         <div className="text-6xl font-black text-slate-800/10 select-none">PORTFOLIO</div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {data.projects.map((project, index) => (
+                    {/* Category Filter */}
+                    <div className="flex flex-wrap gap-3 mb-12 animate-fade-in animation-delay-100">
+                        {data.categories.map((category) => (
+                            <button
+                                key={category.id}
+                                onClick={() => setActiveCategory(category.id)}
+                                className={`px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${activeCategory === category.id
+                                        ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
+                                        : "bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5"
+                                    }`}
+                            >
+                                {category.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[400px]">
+                        {filteredProjects.map((project, index) => (
                             <Card
                                 key={project.title}
                                 className="group relative glass-dark hover:border-blue-500/50 transition-all duration-500 overflow-hidden flex flex-col animate-slide-up"
