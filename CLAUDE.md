@@ -13,6 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Package Manager**: pnpm (NOT npm)
 - **UI Components**: Radix UI primitives + custom components in `src/components/ui/`
 - **Styling**: Tailwind CSS v4 (dynamic compilation via `@tailwindcss/vite`)
+- **Dynamic Content**: `js-yaml` for parsing [portfolio.yaml](file:///Users/aobaiwaki/3dtechparticleanimation/public/portfolio.yaml)
 - **Containerization**: Docker with multi-stage build (Node.js builder + Nginx production)
 - **Orchestration**: Kubernetes with ArgoCD GitOps deployment (monitors `main` branch)
 
@@ -62,7 +63,7 @@ src/
 ├── main.tsx                   # Entry point
 ├── components/
 │   ├── ParticleCanvas.tsx    # Core particle animation logic
-│   ├── Portfolio.tsx         # Main portfolio content page
+│   ├── Portfolio.tsx         # Main portfolio content page (loads YAML)
 │   ├── ui/                   # Radix UI component library
 │   └── figma/                # Figma-exported components
 ├── styles/
@@ -96,6 +97,14 @@ The application features a smooth transition from the intro animation to the mai
    - Concurrently, a 1.5s fade-out is applied to the canvas (`opacity-0` with `transition-opacity duration-1500`).
 3. **Completion**: After 1.5s, `showPortfolio` state changes to `true`, rendering the `Portfolio` component with a fade-in animation.
 
+### Portfolio Content (portfolio.yaml)
+
+The content of the `Portfolio` component is managed via [portfolio.yaml](file:///Users/aobaiwaki/3dtechparticleanimation/public/portfolio.yaml):
+
+1. **Source of Truth**: All text content (Hero, Skills, Projects, Contact) is stored in the YAML file in the `public/` directory.
+2. **Dynamic Loading**: `Portfolio.tsx` uses `fetch` and `js-yaml` to load and parse this file on mount.
+3. **Structure**: Includes `hero`, `skills`, `projects`, and `contact` objects.
+
 ### Build Output
 
 - Vite builds to `build/` directory (configured in vite.config.ts:54)
@@ -117,6 +126,7 @@ The project uses extensive Vite path aliases for package resolution (see vite.co
 - **Package Manager**: Always use `pnpm`, not `npm` or `yarn`
 - **Build Directory**: Output goes to `build/` (not `dist/`)
 - **Tailwind CSS**: Uses v4 with Vite plugin. Utility classes are generated dynamically from source files.
-- **Text Content**: The particle animation displays "Aoba" (hardcoded in ParticleCanvas.tsx:66)
+- **Portfolio Content**: Managed via `public/portfolio.yaml`. Update this file to change the portfolio text without redeploying code (though a refresh is needed).
+- **Text Content (intro)**: The particle animation displays "Aoba" (hardcoded in ParticleCanvas.tsx)
 - **Production Image**: The Docker image is published to `iwakiaoba/3d-particle` on Docker Hub
 - **Deployment Branch**: ArgoCD watches the `main` branch (deployment automated via GitOps)
