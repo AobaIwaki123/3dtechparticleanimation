@@ -42,6 +42,7 @@ export function ParticleCanvas() {
     let mouseY = canvas.height / 2;
     let time = 0;
     let animationId: number;
+    let clickForce = 0;
 
     // テキストから粒子位置を生成
     const createParticlesFromText = () => {
@@ -114,12 +115,21 @@ export function ParticleCanvas() {
     };
     canvas.addEventListener('mousemove', handleMouseMove);
 
+    // クリックイベント
+    const handleClick = (e: MouseEvent) => {
+      clickForce = 1;
+    };
+    canvas.addEventListener('click', handleClick);
+
     // アニメーションループ
     const animate = () => {
       ctx.fillStyle = 'rgba(15, 23, 42, 0.2)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       time += 0.01;
+      
+      // クリック力を減衰
+      clickForce *= 0.9;
 
       particles.forEach((particle, index) => {
         // 円運動を加えた目標位置
@@ -147,14 +157,22 @@ export function ParticleCanvas() {
           particle.vy -= Math.sin(angle) * force * 4;
         }
 
+        // クリックからの影響
+        if (clickForce > 0) {
+          const force = clickForce * 2;
+          const angle = Math.atan2(dy, dx);
+          particle.vx -= Math.cos(angle) * force * 4;
+          particle.vy -= Math.sin(angle) * force * 4;
+        }
+
         // 目標位置への引力
         const tx = particle.targetX - particle.x;
         const ty = particle.targetY - particle.y;
         const tz = particle.targetZ - particle.z;
 
-        particle.vx += tx * 0.1;
-        particle.vy += ty * 0.1;
-        particle.vz += tz * 0.1;
+        particle.vx += tx * 0.15;
+        particle.vy += ty * 0.15;
+        particle.vz += tz * 0.15;
 
         // 摩擦
         particle.vx *= 0.9;
@@ -227,6 +245,7 @@ export function ParticleCanvas() {
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('click', handleClick);
       if (animationId) {
         cancelAnimationFrame(animationId);
       }
