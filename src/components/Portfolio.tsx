@@ -1,4 +1,67 @@
+import { useState, useEffect } from 'react';
+import yaml from 'js-yaml';
+
+interface SkillSet {
+    category: string;
+    skills: string[];
+}
+
+interface Project {
+    title: string;
+    description: string;
+    tech: string[];
+    link: string;
+}
+
+interface PortfolioData {
+    hero: {
+        name: string;
+        title: string;
+        description: string;
+    };
+    skills: SkillSet[];
+    projects: Project[];
+    contact: {
+        email: string;
+        github: string;
+        linkedin: string;
+    };
+}
+
 export function Portfolio() {
+    const [data, setData] = useState<PortfolioData | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch('/portfolio.yaml')
+            .then(res => res.text())
+            .then(text => {
+                const parsed = yaml.load(text) as PortfolioData;
+                setData(parsed);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error('Failed to load portfolio data:', err);
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+                <div className="text-blue-400 animate-pulse text-2xl font-semibold">Loading...</div>
+            </div>
+        );
+    }
+
+    if (!data) {
+        return (
+            <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+                <div className="text-red-400">Error loading data.</div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-y-auto">
             {/* Hero Section */}
@@ -8,18 +71,17 @@ export function Portfolio() {
                 <div className="max-w-4xl w-full space-y-8 relative z-10 animate-fade-in">
                     <div className="space-y-4">
                         <h1 className="text-7xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent animate-slide-up">
-                            Aoba Iwaki
+                            {data.hero.name}
                         </h1>
                         <p className="text-3xl text-slate-300 animate-slide-up animation-delay-200">
-                            Full Stack Developer
+                            {data.hero.title}
                         </p>
                     </div>
 
                     <div className="h-1 w-32 bg-gradient-to-r from-blue-500 to-cyan-400 animate-slide-up animation-delay-400" />
 
                     <p className="text-xl text-slate-400 max-w-2xl leading-relaxed animate-slide-up animation-delay-600">
-                        Passionate about creating elegant solutions with modern technologies.
-                        Specialized in cloud-native applications, Kubernetes orchestration, and interactive web experiences.
+                        {data.hero.description}
                     </p>
 
                     <div className="flex gap-6 pt-4 animate-slide-up animation-delay-800">
@@ -47,14 +109,7 @@ export function Portfolio() {
                     </h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {[
-                            { category: 'Frontend', skills: ['React', 'TypeScript', 'Tailwind CSS', 'Vite'] },
-                            { category: 'Backend', skills: ['Node.js', 'Python', 'REST APIs', 'GraphQL'] },
-                            { category: 'DevOps', skills: ['Kubernetes', 'Docker', 'ArgoCD', 'CI/CD'] },
-                            { category: 'Cloud', skills: ['AWS', 'GCP', 'Cloudflare', 'Nginx'] },
-                            { category: 'Monitoring', skills: ['Prometheus', 'Grafana', 'Loki', 'Promtail'] },
-                            { category: 'Tools', skills: ['Git', 'pnpm', 'Linux', 'Figma'] }
-                        ].map((skillSet, index) => (
+                        {data.skills.map((skillSet, index) => (
                             <div
                                 key={skillSet.category}
                                 className="p-6 rounded-xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-blue-500/20 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/10"
@@ -87,26 +142,7 @@ export function Portfolio() {
                     </h2>
 
                     <div className="space-y-12">
-                        {[
-                            {
-                                title: '3D Particle Animation',
-                                description: 'Interactive particle system with 3D effects, creating dynamic text formations that respond to user interaction. Built with React and HTML5 Canvas.',
-                                tech: ['React', 'TypeScript', 'Canvas API', 'Vite'],
-                                link: 'https://portfolio.aooba.net'
-                            },
-                            {
-                                title: 'Kubernetes Observability Stack',
-                                description: 'Complete monitoring solution using Prometheus, Grafana, and Loki. Deployed via GitOps with ArgoCD for automated synchronization.',
-                                tech: ['Kubernetes', 'Prometheus', 'Grafana', 'ArgoCD'],
-                                link: '#'
-                            },
-                            {
-                                title: 'Cloud-Native Web Application',
-                                description: 'Scalable web application deployed on Kubernetes with Cloudflare Tunnel integration, featuring automated CI/CD pipeline.',
-                                tech: ['Docker', 'Kubernetes', 'Nginx', 'Cloudflare'],
-                                link: '#'
-                            }
-                        ].map((project, index) => (
+                        {data.projects.map((project, index) => (
                             <div
                                 key={project.title}
                                 className="p-8 rounded-2xl bg-gradient-to-br from-slate-800/40 to-slate-900/40 border border-blue-500/20 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/20"
@@ -153,7 +189,7 @@ export function Portfolio() {
 
                     <div className="flex justify-center gap-8 pt-8">
                         <a
-                            href="https://github.com"
+                            href={data.contact.github}
                             className="p-4 rounded-full bg-slate-800/50 border border-blue-500/30 hover:border-blue-500/60 hover:bg-slate-800/80 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/30"
                             aria-label="GitHub"
                         >
@@ -162,7 +198,7 @@ export function Portfolio() {
                             </svg>
                         </a>
                         <a
-                            href="https://linkedin.com"
+                            href={data.contact.linkedin}
                             className="p-4 rounded-full bg-slate-800/50 border border-blue-500/30 hover:border-blue-500/60 hover:bg-slate-800/80 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/30"
                             aria-label="LinkedIn"
                         >
@@ -171,7 +207,7 @@ export function Portfolio() {
                             </svg>
                         </a>
                         <a
-                            href="mailto:contact@example.com"
+                            href={`mailto:${data.contact.email}`}
                             className="p-4 rounded-full bg-slate-800/50 border border-blue-500/30 hover:border-blue-500/60 hover:bg-slate-800/80 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/30"
                             aria-label="Email"
                         >

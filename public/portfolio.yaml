@@ -1,0 +1,37 @@
+hero:
+  name: "Aoba Iwaki"
+  title: "Developer"
+  description: "インフラ技術が好き"
+
+skills:
+  - category: "Frontend"
+    skills: ["React", "TypeScript", "Tailwind CSS", "Vite"]
+  - category: "Backend"
+    skills: ["Node.js", "Python", "REST APIs", "GraphQL"]
+  - category: "DevOps"
+    skills: ["Kubernetes", "Docker", "ArgoCD", "CI/CD"]
+  - category: "Cloud"
+    skills: ["AWS", "GCP", "Cloudflare", "Nginx"]
+  - category: "Monitoring"
+    skills: ["Prometheus", "Grafana", "Loki", "Promtail"]
+  - category: "Tools"
+    skills: ["Git", "pnpm", "Linux", "Figma"]
+
+projects:
+  - title: "3D Particle Animation"
+    description: "Interactive particle system with 3D effects, creating dynamic text formations that respond to user interaction. Built with React and HTML5 Canvas."
+    tech: ["React", "TypeScript", "Canvas API", "Vite"]
+    link: "https://portfolio.aooba.net"
+  - title: "Kubernetes Observability Stack"
+    description: "Complete monitoring solution using Prometheus, Grafana, and Loki. Deployed via GitOps with ArgoCD for automated synchronization."
+    tech: ["Kubernetes", "Prometheus", "Grafana", "ArgoCD"]
+    link: "#"
+  - title: "Cloud-Native Web Application"
+    description: "Scalable web application deployed on Kubernetes with Cloudflare Tunnel integration, featuring automated CI/CD pipeline."
+    tech: ["Docker", "Kubernetes", "Nginx", "Cloudflare"]
+    link: "#"
+
+contact:
+  email: "contact@example.com"
+  github: "https://github.com/AobaIwaki123"
+  linkedin: "https://linkedin.com"
