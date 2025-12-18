@@ -18,7 +18,12 @@ interface Particle {
   radius: number;
 }
 
-export function ParticleCanvas() {
+interface ParticleCanvasProps {
+  onDisperse?: () => void;
+  isDisappearing?: boolean;
+}
+
+export function ParticleCanvas({ onDisperse, isDisappearing = false }: ParticleCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -53,7 +58,7 @@ export function ParticleCanvas() {
         console.log('Canvas size is 0');
         return;
       }
-      
+
       const tempCanvas = document.createElement('canvas');
       const tempCtx = tempCanvas.getContext('2d');
       if (!tempCtx) return;
@@ -104,7 +109,7 @@ export function ParticleCanvas() {
           }
         }
       }
-      
+
       console.log(`Created ${particles.length} particles`);
     };
 
@@ -122,6 +127,9 @@ export function ParticleCanvas() {
       clickForce = 1;
       clickX = e.clientX;
       clickY = e.clientY;
+      if (onDisperse) {
+        onDisperse();
+      }
     };
     canvas.addEventListener('click', handleClick);
 
@@ -131,7 +139,7 @@ export function ParticleCanvas() {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       time += 0.01;
-      
+
       // クリック力を減衰
       clickForce *= 0.9;
 
@@ -204,7 +212,7 @@ export function ParticleCanvas() {
         // 青色のグラデーション
         const depth = (particle.z + 200) / 400; // 0-1の範囲に正規化
         const brightness = Math.max(0.4, Math.min(1, depth));
-        
+
         // 青色のバリエーション
         const hue = 200 + Math.sin(time + index * 0.1) * 15; // 185-215の範囲
         const saturation = 75 + Math.sin(time * 0.5 + index * 0.05) * 15;
@@ -266,7 +274,8 @@ export function ParticleCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="w-full h-full cursor-pointer"
+      className={`w-full h-full cursor-pointer transition-opacity duration-1500 ${isDisappearing ? 'opacity-0' : 'opacity-100'
+        }`}
     />
   );
 }
